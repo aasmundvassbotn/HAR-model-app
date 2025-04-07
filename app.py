@@ -9,8 +9,13 @@ import cv2
 def detect_keypoints(video_file):
     model = YOLO("yolo11n-pose.pt")
 
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
+      temp_file.write(video_file.getvalue())
+      temp_file_path = temp_file.name
+
+
     # Pass the file-like object directly to the YOLO model
-    results = model.track(source=video_file, show=True, save=True, stream=True)
+    results = model.track(source=temp_file_path, show=True, save=True, stream=True)
 
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
