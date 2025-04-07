@@ -23,17 +23,15 @@ def main():
   st.write("Hello, world!")
   model = keras.saving.load_model("./bidirectional_model.keras")
   video_file = st.file_uploader("Video file", type="mp4")
-  """ detect_keypoints_button = st.button("Detect Keypoints")
+  detect_keypoints_button = st.button("Detect Keypoints")
+
   if detect_keypoints_button and video_file is not None:
     video_path = video_file.name
-    with open(video_path, "wb") as f:
-      f.write(video_file.read())
     keypoints = detect_keypoints(video_path)
     st.write("Keypoints detected!")
     st.write(keypoints)
 
-    # Predict using the model
-    predictions = model.predict(keypoints)
+    """ BLABLApredictions = model.predict(keypoints)
     st.write("Predictions:")
     st.write(predictions) """
 
