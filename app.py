@@ -5,6 +5,7 @@ import numpy as np
 import ultralytics
 from ultralytics import YOLO
 import cv2
+import tempfile
 
 def detect_keypoints(video_file):
     model = YOLO("yolo11n-pose.pt")
