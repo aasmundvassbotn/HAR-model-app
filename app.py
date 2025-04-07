@@ -4,7 +4,7 @@ import keras
 import numpy as np
 import ultralytics
 
-def detect_keypoints(video_path):
+""" def detect_keypoints(video_path):
   model = ultralytics.YOLO("yolov8n-pose.pt")
 
   cap = cv2.VideoCapture(video_path)
@@ -24,7 +24,7 @@ def detect_keypoints(video_path):
     keypoints_list.append(keypoints)
 
   cap.release()
-  return np.array(keypoints_list)
+  return np.array(keypoints_list) """
   
 def main():
   st.title("My Streamlit App")
