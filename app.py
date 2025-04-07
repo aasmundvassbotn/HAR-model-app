@@ -8,4 +8,4 @@ def main():
     video_file = st.file_uploader("Video file", type="mp4")
 
 if __name__ == "__main__":
-    st.main()
+    main()
