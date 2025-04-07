@@ -1,7 +1,8 @@
 streamlit
+torch
+opencv-python
+numpy
+pandas
 tensorflow
 keras
-numpy
 ultralytics
-opencv-python
-pandas
