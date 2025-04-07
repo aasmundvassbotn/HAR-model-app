@@ -3,4 +3,5 @@ tensorflow
 keras
 numpy
 ultralytics
-cv2
+opencv-python
+pandas
