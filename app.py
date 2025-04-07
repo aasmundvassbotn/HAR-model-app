@@ -3,28 +3,20 @@ import tensorflow as tf
 import keras
 import numpy as np
 import ultralytics
+from ultralytics import YOLO
+import cv2
 
-""" def detect_keypoints(video_path):
-  model = ultralytics.YOLO("yolov8n-pose.pt")
+def detect_keypoints(video_path):
+  model = YOLO("yolo11n-pose.pt")
 
-  cap = cv2.VideoCapture(video_path)
+  results = model.track(source=video_path, show=True, save=True, stream=True)
 
-  keypoints_list = []
-
-  while True:
-    ret, frame = cap.read()
-    if not ret:
-      break
-
-    # Perform pose detection
-    results = model(frame)
-
-    # Extract keypoints from the results
-    keypoints = results[0].keypoints.numpy()
-    keypoints_list.append(keypoints)
-
-  cap.release()
-  return np.array(keypoints_list) """
+  video_keypoints = np.ndarray((128, 17, 2))
+  for i, result in enumerate(results):
+      normalized_keypoints = result.keypoints.xyn.cpu().numpy()
+      video_keypoints[i] = normalized_keypoints
+      result.show()  # display to screen
+  return video_keypoints
   
 def main():
   st.title("My Streamlit App")
