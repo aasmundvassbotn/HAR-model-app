@@ -3,6 +3,8 @@ pandas==2.0.2
 streamlit==1.30.0
 torch==2.1.1
 opencv-python-headless==4.8.0.74
+setuptools
+wheel
 tensorflow
 keras
 ultralytics
