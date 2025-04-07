@@ -29,7 +29,7 @@ import ultralytics
 def main():
   st.title("My Streamlit App")
   st.write("Hello, world!")
-  model = keras.saving.load_model("bidirectional_model.keras")
+  model = keras.saving.load_model("./bidirectional_model.keras")
   video_file = st.file_uploader("Video file", type="mp4")
   """ detect_keypoints_button = st.button("Detect Keypoints")
   if detect_keypoints_button and video_file is not None:
