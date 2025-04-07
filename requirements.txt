@@ -2,3 +2,4 @@ streamlit
 tensorflow
 keras
 numpy
+ultralytics
