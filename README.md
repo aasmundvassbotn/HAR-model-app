@@ -1,4 +1,4 @@
-# HAR_video_model
+# HAR model app
 CURRENTLY EXPORTING FROM GOOGLE COLAB TO GITHUB
 Includes training a HAR (Human Action Recognition) model and a Streamlit app
 ## Table of Contents
