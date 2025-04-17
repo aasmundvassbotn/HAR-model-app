@@ -23,6 +23,13 @@ def detect_keypoints(video_file):
         normalized_keypoints = result.keypoints.xyn.cpu().numpy()
         video_keypoints[i] = normalized_keypoints
         result.show()  # display to screen
+
+    x = np.zeros((128, 34))
+    for i, frame in enumerate(video_keypoints):
+        for j, keypoint in enumerate(frame):
+            x[i][j*2] = keypoint[0]
+            x[i][j*2+1] = keypoint[1]
+    
     return video_keypoints
 
 def main():
