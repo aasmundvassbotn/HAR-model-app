@@ -30,7 +30,7 @@ def detect_keypoints(video_file):
             x[i][j*2] = keypoint[0]
             x[i][j*2+1] = keypoint[1]
     
-    return video_keypoints
+    return x
 
 def main():
     st.title("My Streamlit App")
