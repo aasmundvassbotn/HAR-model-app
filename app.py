@@ -37,6 +37,10 @@ def main():
         keypoints = detect_keypoints(video_file)
         st.write("Keypoints detected!")
         st.write(keypoints)
+        y_pred = model.predict(keypoints)
+        st.write("Prediction done!")
+        st.write("Predicted values:")
+        st.write(y_pred)
 
 if __name__ == "__main__":
     main()
