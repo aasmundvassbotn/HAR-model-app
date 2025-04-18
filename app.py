@@ -42,12 +42,7 @@ def main():
     if detect_keypoints_button and video_file is not None:
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
-        st.write("Keypoints detected!")
-        st.write(keypoints)
         y_pred = model.predict(keypoints)
-        st.write("Prediction done!")
-        st.write("Predicted values:")
-        st.write(y_pred)
         st.write("Predicted class:")
         y_class = np.argmax(y_pred, axis=1)
         LABELS = [
