@@ -29,7 +29,7 @@ def detect_keypoints(video_file):
         for j, keypoint in enumerate(frame):
             x[i][j*2] = keypoint[0]
             x[i][j*2+1] = keypoint[1]
-    
+    x = np.expand_dims(x, axis=0)
     return x
 
 def main():
