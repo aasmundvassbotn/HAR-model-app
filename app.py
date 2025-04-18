@@ -48,6 +48,17 @@ def main():
         st.write("Prediction done!")
         st.write("Predicted values:")
         st.write(y_pred)
+        st.write("Predicted class:")
+        y_class = np.argmax(y_pred, axis=1)
+        LABELS = [
+            "Jumping",
+            "Jumping jacks",
+            "Boxing",
+            "Waving two hands",
+            "Waving one hand",
+            "Clapping",
+        ]
+        st.write(LABELS[y_class[0]])
 
 if __name__ == "__main__":
     main()
