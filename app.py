@@ -32,6 +32,7 @@ def detect_keypoints(video_file):
         keypoints = result.keypoints.xy.cpu().numpy()
         normalized_keypoints = result.keypoints.xyn.cpu().numpy()
         video_keypoints[i] = normalized_keypoints
+        print(f"Keypoints: {keypoints}")
         
         for keypoint in keypoints:
             print(keypoint)
