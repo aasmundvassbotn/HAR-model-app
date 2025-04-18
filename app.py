@@ -34,6 +34,14 @@ def detect_keypoints(video_file):
         video_keypoints[i] = normalized_keypoints
         
         for keypoint in keypoints:
+            print(keypoint)
+            print(type(keypoint))
+            print(keypoint.shape)
+            print(keypoint[0])
+            print(keypoint[1])
+            print(type(keypoint[0]))
+            print(type(keypoint[1]))
+
             x, y = int(keypoint[0]), int(keypoint[1])
             cv2.circle(frame, (x, y), 5, (0, 255, 0), -1)
 
@@ -43,7 +51,7 @@ def detect_keypoints(video_file):
     out.release()
 
     st.video(out_path)
-    
+
     x = np.zeros((128, 34))
     for i, frame in enumerate(video_keypoints):
         for j, keypoint in enumerate(frame):
