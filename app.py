@@ -34,7 +34,7 @@ def detect_keypoints(video_file):
         video_keypoints[i] = normalized_keypoints
         print(f"Keypoints: {keypoints}")
         
-        for keypoint in keypoints:
+        for keypoint in keypoints[0]:
             print(keypoint)
             print(type(keypoint))
             print(keypoint.shape)
