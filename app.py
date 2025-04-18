@@ -34,7 +34,7 @@ def detect_keypoints(video_file):
         st.write("Video files found:", video_files)
         latest_video_path = os.path.join(output_folder, video_files[0])
         st.write("Latest video path:", latest_video_path)
-        st.video(latest_video_path)
+        st.video(latest_video_path, format="video/avi")
     else:
         st.warning("No output video found in the results folder.")
 
