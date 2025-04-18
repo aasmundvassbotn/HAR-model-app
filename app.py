@@ -26,27 +26,17 @@ def detect_keypoints(video_file):
 
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
-        ret, frame = cap.read()
-        if not ret:
-            break
+        frame = result.orig_img  # Use the original frame from the result
         keypoints = result.keypoints.xy.cpu().numpy()
         normalized_keypoints = result.keypoints.xyn.cpu().numpy()
         video_keypoints[i] = normalized_keypoints
         print(f"Keypoints: {keypoints}")
         
         for keypoint in keypoints[0]:
-            print(keypoint)
-            print(type(keypoint))
-            print(keypoint.shape)
-            print(keypoint[0])
-            print(keypoint[1])
-            print(type(keypoint[0]))
-            print(type(keypoint[1]))
-
             x, y = int(keypoint[0]), int(keypoint[1])
             cv2.circle(frame, (x, y), 5, (0, 255, 0), -1)
 
-        out.write(frame)
+        out.write(frame)  # Write the modified frame to the output video
 
     cap.release()
     out.release()
