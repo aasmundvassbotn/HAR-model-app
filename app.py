@@ -6,6 +6,7 @@ import ultralytics
 from ultralytics import YOLO
 import cv2
 import tempfile
+import os
 
 def detect_keypoints(video_file):
     model = YOLO("yolo11n-pose.pt")
@@ -18,31 +19,23 @@ def detect_keypoints(video_file):
     # Pass the file-like object directly to the YOLO model
     results = model.track(source=temp_file_path, show=True, save=True, stream=True)
 
-    cap = cv2.VideoCapture(temp_file_path)
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out_path = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4').name
-    out = cv2.VideoWriter(out_path, fourcc, cap.get(cv2.CAP_PROP_FPS),
-                            (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
-
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
         frame = result.orig_img  # Use the original frame from the result
-        keypoints = result.keypoints.xy.cpu().numpy()
         normalized_keypoints = result.keypoints.xyn.cpu().numpy()
         video_keypoints[i] = normalized_keypoints
-        print(f"Keypoints: {keypoints}")
         
-        for keypoint in keypoints[0]:
-            x, y = int(keypoint[0]), int(keypoint[1])
-            cv2.circle(frame, (x, y), 5, (0, 255, 0), -1)
+    output_folder = "runs/pose/track"
+    # Find the most recent file (assuming you want the last run's result)
+    video_files = [f for f in os.listdir(output_folder) if f.endswith(('.mp4', '.avi'))]
+    video_files.sort(key=lambda x: os.path.getmtime(os.path.join(output_folder, x)), reverse=True)
 
-        out.write(frame)  # Write the modified frame to the output video
-
-    cap.release()
-    out.release()
-
-    st.video(out_path)
-
+    if video_files:
+        latest_video_path = os.path.join(output_folder, video_files[0])
+        st.video(latest_video_path)
+    else:
+        st.warning("No output video found in the results folder.")
+        
     x = np.zeros((128, 34))
     for i, frame in enumerate(video_keypoints):
         for j, keypoint in enumerate(frame):
