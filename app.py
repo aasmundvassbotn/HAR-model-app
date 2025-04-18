@@ -31,11 +31,13 @@ def detect_keypoints(video_file):
     video_files.sort(key=lambda x: os.path.getmtime(os.path.join(output_folder, x)), reverse=True)
 
     if video_files:
+        st.write("Video files found:", video_files)
         latest_video_path = os.path.join(output_folder, video_files[0])
+        st.write("Latest video path:", latest_video_path)
         st.video(latest_video_path)
     else:
         st.warning("No output video found in the results folder.")
-        
+
     x = np.zeros((128, 34))
     for i, frame in enumerate(video_keypoints):
         for j, keypoint in enumerate(frame):
