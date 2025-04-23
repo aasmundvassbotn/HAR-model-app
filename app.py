@@ -63,6 +63,15 @@ def main():
             del st.session_state[key]
         st.session_state.clear()
         st.experimental_rerun()
+        folder = "runs/pose/track"
+        for file in os.listdir(folder):
+            file_path = os.path.join(folder, file)
+            try:
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+            except Exception as e:
+                st.error(f"Error deleting file {file_path}: {e}")
+
     st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded and press this button again.")
     model = keras.saving.load_model("./bidirectional_model.keras")
     video_file = st.file_uploader("Video file", type="mp4")
