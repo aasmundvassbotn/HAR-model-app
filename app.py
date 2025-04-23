@@ -17,7 +17,7 @@ def detect_keypoints(video_file):
       temp_file_path = temp_file.name
 
     # Pass the file-like object directly to the YOLO model
-    results = model.track(source=temp_file_path, show=True, save=True, stream=True)
+    results = model.track(source=temp_file_path, save=True, stream=True)
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
         frame = result.orig_img  # Use the original frame from the result
@@ -38,7 +38,7 @@ def detect_keypoints(video_file):
     if video_files:
         latest_video_path = os.path.join(output_folder, video_files[0])
         converted_video_path = os.path.join(output_folder, "converted_video.mp4")
-        ffmpeg_command = f"ffmpeg -i {latest_video_path} -vcodec libx264 {converted_video_path}"
+        ffmpeg_command = f"ffmpeg -i {latest_video_path} -vf scale=iw/2:ih/2 -vcodec libx264 -preset ultrafast {converted_video_path}"
         try:
             subprocess.run(ffmpeg_command, shell=True, check=True, timeout=45)
         except subprocess.TimeoutExpired:
@@ -53,6 +53,10 @@ def detect_keypoints(video_file):
     return x
 
 def main():
+    if "has_loaded_once" not in st.session_state:
+        st.session_state.clear()
+        st.session_state.has_loaded_once = True
+        st.experimental_rerun()
     st.title("Human Action Recognition App")
     st.write("Hello! This is a human action recognition app using a pre-trained pose detection model and a trained LSTM model. You can find the code in the GitHub repository: https://github.com/aasmundvassbotn/HAR-model-app")
     st.write("The model we trained is a unidirectional LSTM model. The model was trained on a subset of the Berkley MHAD dataset. The dataset we used can be found here: https://github.com/stuarteiffert/RNN-for-Human-Activity-Recognition-using-2D-Pose-Input?tab=readme-ov-file#dataset-overview. Our model is trained to classify the following actions: Jumping, Jumping jacks, Boxing, Waving two hands, Waving one hand and Clapping.")
