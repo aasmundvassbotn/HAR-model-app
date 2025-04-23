@@ -34,7 +34,13 @@ def detect_keypoints(video_file):
         st.write("Video files found:", video_files)
         latest_video_path = os.path.join(output_folder, video_files[0])
         st.write("Latest video path:", latest_video_path)
-        st.video(latest_video_path, format="video/avi")
+        # Convert the video to a compatible format using ffmpeg
+        converted_video_path = os.path.join(output_folder, "converted_video.mp4")
+        ffmpeg_command = f"ffmpeg -i {latest_video_path} -vcodec libx264 {converted_video_path}"
+        os.system(ffmpeg_command)
+
+        # Display the converted video
+        st.video(converted_video_path, format="video/mp4")
     else:
         st.warning("No output video found in the results folder.")
 
