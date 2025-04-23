@@ -7,6 +7,7 @@ from ultralytics import YOLO
 import cv2
 import tempfile
 import os
+import subprocess
 
 def detect_keypoints(video_file):
     model = YOLO("yolo11n-pose.pt")
@@ -17,7 +18,7 @@ def detect_keypoints(video_file):
 
     # Pass the file-like object directly to the YOLO model
     results = model.track(source=temp_file_path, show=True, save=True, stream=True)
-
+    os.remove(temp_file_path)
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
         frame = result.orig_img  # Use the original frame from the result
@@ -32,7 +33,12 @@ def detect_keypoints(video_file):
         latest_video_path = os.path.join(output_folder, video_files[0])
         converted_video_path = os.path.join(output_folder, "converted_video.mp4")
         ffmpeg_command = f"ffmpeg -i {latest_video_path} -vcodec libx264 {converted_video_path}"
-        os.system(ffmpeg_command)
+        try:
+            subprocess.run(ffmpeg_command, shell=True, check=True, timeout=30)
+        except subprocess.TimeoutExpired:
+            st.error("FFmpeg processing timed out.")
+        except subprocess.CalledProcessError:
+            st.error("FFmpeg command failed.")
         st.video(converted_video_path, format="video/mp4")
     else:
         st.warning("No output video found in the results folder.")
