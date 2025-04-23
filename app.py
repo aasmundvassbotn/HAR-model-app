@@ -28,8 +28,6 @@ def detect_keypoints(video_file):
     # Find the most recent file (assuming you want the last run's result)
     video_files = [f for f in os.listdir(output_folder) if f.endswith(('.mp4', '.avi'))]
     video_files.sort(key=lambda x: os.path.getmtime(os.path.join(output_folder, x)), reverse=True)
-        
-    # Display video with keypoints
     if video_files:
         latest_video_path = os.path.join(output_folder, video_files[0])
         converted_video_path = os.path.join(output_folder, "converted_video.mp4")
@@ -48,8 +46,10 @@ def detect_keypoints(video_file):
     return x
 
 def main():
-    st.title("My Streamlit App")
-    st.write("Hello, world!")
+    st.title("Human Action Recognition App")
+    st.write("Hello! This is a human action recognition app using a pre-trained pose detection model and a trained LSTM model. You can find the code in the GitHub repository: https://github.com/aasmundvassbotn/HAR-model-app")
+    st.write("The model we trained is a unidirectional LSTM model. The model was trained on a subset of the Berkley MHAD dataset. The dataset we used can be found here: https://github.com/stuarteiffert/RNN-for-Human-Activity-Recognition-using-2D-Pose-Input?tab=readme-ov-file#dataset-overview. Our model is trained to classify the following actions: Jumping, Jumping jacks, Boxing, Waving two hands, Waving one hand and Clapping.")
+    st.write("Upload a video file to detect keypoints and classify the action. The pose-detection model used is YOLO nano which is the smallest model in the YOLO family. This model is not that robust, so it usually performs poorly in bad lighting, low resolutions etc. Note that since this app is hosted on Streamlit Cloud, all the processes are run on a CPU and not a GPU. This means that the pose detection process can take a while, depending on the length of the video. It is not recommended to upload videos longer than 5 seconds.")
     model = keras.saving.load_model("./bidirectional_model.keras")
     video_file = st.file_uploader("Video file", type="mp4")
     detect_keypoints_button = st.button("Detect Keypoints")
@@ -58,7 +58,7 @@ def main():
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
         y_pred = model.predict(keypoints)
-        st.write("Predicted class:")
+        st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
         y_class = np.argmax(y_pred, axis=1)
         LABELS = [
             "Jumping",
@@ -68,7 +68,7 @@ def main():
             "Waving one hand",
             "Clapping",
         ]
-        st.write(LABELS[y_class[0]])
+        st.write("Class predicted: ", LABELS[y_class[0]])
 
 if __name__ == "__main__":
     main()
