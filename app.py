@@ -53,14 +53,15 @@ def detect_keypoints(video_file):
     return x
 
 def main():
-    if "has_loaded_once" not in st.session_state:
-        st.session_state.clear()
-        st.session_state.has_loaded_once = True
-        st.experimental_rerun()
     st.title("Human Action Recognition App")
     st.write("Hello! This is a human action recognition app using a pre-trained pose detection model and a trained LSTM model. You can find the code in the GitHub repository: https://github.com/aasmundvassbotn/HAR-model-app")
     st.write("The model we trained is a unidirectional LSTM model. The model was trained on a subset of the Berkley MHAD dataset. The dataset we used can be found here: https://github.com/stuarteiffert/RNN-for-Human-Activity-Recognition-using-2D-Pose-Input?tab=readme-ov-file#dataset-overview. Our model is trained to classify the following actions: Jumping, Jumping jacks, Boxing, Waving two hands, Waving one hand and Clapping.")
     st.write("Upload a video file to detect keypoints and classify the action. The pose-detection model used is YOLO nano which is the smallest model in the YOLO family. This model is not that robust, so it usually performs poorly in bad lighting, low resolutions etc. Note that since this app is hosted on Streamlit Cloud, all the processes are run on a CPU and not a GPU. This means that the pose detection process can take a while, depending on the length of the video. It is not recommended to upload videos longer than 5 seconds.")
+    if st.button("Reset session"):
+        for key in st.session_state.keys():
+            del st.session_state[key]
+        st.experimental_rerun()
+    st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically.")
     model = keras.saving.load_model("./bidirectional_model.keras")
     video_file = st.file_uploader("Video file", type=["mp4", "mov"])
     detect_keypoints_button = st.button("Detect Keypoints")
