@@ -73,8 +73,6 @@ def main():
         st.markdown(LABELS[y_class[0]])
         st.write("Confidence: ")
         st.markdown(f"{y_pred[0][y_class[0]]:.2f}%")
-        st
-
 
 if __name__ == "__main__":
     main()
