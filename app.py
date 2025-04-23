@@ -23,7 +23,14 @@ def detect_keypoints(video_file):
         frame = result.orig_img  # Use the original frame from the result
         normalized_keypoints = result.keypoints.xyn.cpu().numpy()
         video_keypoints[i] = normalized_keypoints
-        
+
+    x = np.zeros((128, 34))
+    for i, frame in enumerate(video_keypoints):
+        for j, keypoint in enumerate(frame):
+            x[i][j*2] = keypoint[0]
+            x[i][j*2+1] = keypoint[1]
+    x = np.expand_dims(x, axis=0)
+
     output_folder = "runs/pose/track"
     # Find the most recent file (assuming you want the last run's result)
     video_files = [f for f in os.listdir(output_folder) if f.endswith(('.mp4', '.avi'))]
@@ -33,7 +40,7 @@ def detect_keypoints(video_file):
         converted_video_path = os.path.join(output_folder, "converted_video.mp4")
         ffmpeg_command = f"ffmpeg -i {latest_video_path} -vcodec libx264 {converted_video_path}"
         try:
-            subprocess.run(ffmpeg_command, shell=True, check=True, timeout=30)
+            subprocess.run(ffmpeg_command, shell=True, check=True, timeout=45)
         except subprocess.TimeoutExpired:
             st.error("FFmpeg processing timed out.")
         except subprocess.CalledProcessError:
@@ -43,12 +50,6 @@ def detect_keypoints(video_file):
     else:
         st.warning("No output video found in the results folder.")
 
-    x = np.zeros((128, 34))
-    for i, frame in enumerate(video_keypoints):
-        for j, keypoint in enumerate(frame):
-            x[i][j*2] = keypoint[0]
-            x[i][j*2+1] = keypoint[1]
-    x = np.expand_dims(x, axis=0)
     return x
 
 def main():
@@ -76,9 +77,9 @@ def main():
             "Clapping",
         ]
         st.write("Class predicted: ")
-        st.markdown(LABELS[y_class[0]])
+        st.markdown(f":blue-background[**{LABELS[y_class[0]]}**]")
         st.write("Confidence: ")
-        st.markdown(f"{y_pred[0][y_class[0]]:.2f}%")
+        st.markdown(f":blue-background[**{y_pred[0][y_class[0]]:.2f}%**]")
 
 if __name__ == "__main__":
     main()
