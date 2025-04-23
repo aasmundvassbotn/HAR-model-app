@@ -61,6 +61,7 @@ def main():
     if st.button("Reset session"):
         for key in st.session_state.keys():
             del st.session_state[key]
+        st.session_state.clear()
         st.experimental_rerun()
     st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded and press this button again.")
     model = keras.saving.load_model("./bidirectional_model.keras")
