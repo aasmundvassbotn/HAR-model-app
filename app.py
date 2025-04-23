@@ -70,9 +70,9 @@ def main():
             "Clapping",
         ]
         st.write("Class predicted: ")
-        st.markdown(LABELS[y_class[0]], color="blue")
+        st.markdown(LABELS[y_class[0]])
         st.write("Confidence: ")
-        st.markdown(f"{y_pred[0][y_class[0]]:.2f}%", icon=":material/percent:", color="blue")
+        st.markdown(f"{y_pred[0][y_class[0]]:.2f}%")
         st
 
 
