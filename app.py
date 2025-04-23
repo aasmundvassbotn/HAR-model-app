@@ -38,7 +38,7 @@ def detect_keypoints(video_file):
     if video_files:
         latest_video_path = os.path.join(output_folder, video_files[0])
         converted_video_path = os.path.join(output_folder, "converted_video.mp4")
-        ffmpeg_command = f"ffmpeg -i {latest_video_path} -vf scale=iw/2:ih/2 -vcodec libx264 -preset ultrafast {converted_video_path}"
+        ffmpeg_command = f"ffmpeg -i {latest_video_path} -vf scale=iw/4:ih/4 -vcodec libx264 -preset ultrafast {converted_video_path}"
         try:
             subprocess.run(ffmpeg_command, shell=True, check=True, timeout=45)
         except subprocess.TimeoutExpired:
