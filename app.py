@@ -62,7 +62,7 @@ def main():
         for key in st.session_state.keys():
             del st.session_state[key]
         st.session_state.clear()
-        st.experimental_rerun()
+        st.rerun()
         folder = "runs/pose/track"
         for file in os.listdir(folder):
             file_path = os.path.join(folder, file)
