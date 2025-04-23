@@ -14,7 +14,6 @@ def detect_keypoints(video_file):
     with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
       temp_file.write(video_file.getvalue())
       temp_file_path = temp_file.name
-    st.video(temp_file_path)
 
     # Pass the file-like object directly to the YOLO model
     results = model.track(source=temp_file_path, show=True, save=True, stream=True)
