@@ -34,7 +34,7 @@ def detect_keypoints(video_file):
     output_folder = "runs/pose/track"
     # Find the most recent file (assuming you want the last run's result)
     video_files = [f for f in os.listdir(output_folder) if f.endswith(('.mp4', '.avi'))]
-    video_files.sort(key=lambda x: os.path.getmtime(os.path.join(output_folder, x)), reverse=True)
+    video_files.sort(key=lambda x: os.path.getmtime(os.path.join(output_folder, x)))
     if video_files:
         latest_video_path = os.path.join(output_folder, video_files[0])
         converted_video_path = os.path.join(output_folder, "converted_video.mp4")
