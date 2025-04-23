@@ -1,16 +1,11 @@
 # HAR model app
-CURRENTLY EXPORTING FROM GOOGLE COLAB TO GITHUB
-Includes training a HAR (Human Action Recognition) model and a Streamlit app
+Includes training a HAR (Human Action Recognition) model and a Streamlit app.
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Project structure](#project-stucture)
-3. [Dataset](#dataset)
-4. [Model Training](#model-training)
-5. [Streamlit App](#streamlit-app)
-6. [License](#license)
-
-## Introduction
-Provide an overview of the project and its purpose.
+1. [Project structure](#project-stucture)
+2. [Dataset](#dataset)
+3. [Model Training](#model-training)
+4. [Streamlit App](#streamlit-app)
+5. [License](#license)
 
 ## Project structure
 All notebooks that were used to experiment with the dataset and train the model itself are found in the "notebooks"-folder. All notebooks were run in Google Colab and Google Drive were used to store data. The rest of the project are essential for the webapp to function. "app.py" is the app itself.
