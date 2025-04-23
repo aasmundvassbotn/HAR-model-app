@@ -58,6 +58,7 @@ def main():
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
         y_pred = model.predict(keypoints)
+        st.badge("Success", icon=":material/check:", color="green")
         st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
         y_class = np.argmax(y_pred, axis=1)
         LABELS = [
@@ -68,7 +69,12 @@ def main():
             "Waving one hand",
             "Clapping",
         ]
-        st.write("Class predicted: ", LABELS[y_class[0]])
+        st.write("Class predicted: ")
+        st.badge(LABELS[y_class[0]], color="blue")
+        st.write("Confidence: ")
+        st.badge(f"{y_pred[0][y_class[0]]:.2f}%", icon=":material/percent:", color="blue")
+        st
+
 
 if __name__ == "__main__":
     main()
