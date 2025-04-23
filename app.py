@@ -57,13 +57,14 @@ def main():
     st.write("Hello! This is a human action recognition app using a pre-trained pose detection model and a trained LSTM model. You can find the code in the GitHub repository: https://github.com/aasmundvassbotn/HAR-model-app")
     st.write("The model we trained is a unidirectional LSTM model. The model was trained on a subset of the Berkley MHAD dataset. The dataset we used can be found here: https://github.com/stuarteiffert/RNN-for-Human-Activity-Recognition-using-2D-Pose-Input?tab=readme-ov-file#dataset-overview. Our model is trained to classify the following actions: Jumping, Jumping jacks, Boxing, Waving two hands, Waving one hand and Clapping.")
     st.write("Upload a video file to detect keypoints and classify the action. The pose-detection model used is YOLO nano which is the smallest model in the YOLO family. This model is not that robust, so it usually performs poorly in bad lighting, low resolutions etc. Note that since this app is hosted on Streamlit Cloud, all the processes are run on a CPU and not a GPU. This means that the pose detection process can take a while, depending on the length of the video. It is not recommended to upload videos longer than 5 seconds.")
+    st.write("If you dont feel like recording a video yourself. Feel free to use any of our test videos: https://drive.google.com/drive/folders/1zQBNdTXX8kwFk0NK7-4C2XbA22LZOnLD?usp=drive_link")
     if st.button("Reset session"):
         for key in st.session_state.keys():
             del st.session_state[key]
         st.experimental_rerun()
-    st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically.")
+    st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded and press this button again.")
     model = keras.saving.load_model("./bidirectional_model.keras")
-    video_file = st.file_uploader("Video file", type=["mp4", "mov"])
+    video_file = st.file_uploader("Video file", type="mp4")
     detect_keypoints_button = st.button("Detect Keypoints")
 
     if detect_keypoints_button and video_file is not None:
