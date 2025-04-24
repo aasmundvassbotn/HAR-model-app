@@ -24,9 +24,9 @@ def detect_keypoints(video_file):
         resultslist = list(results)
         st.write("Results content: ", type(results))
         st.write(f"resultslist: {resultslist}")
-        st.write(f"resultslist[0]: {resultslist[0]}")
-        st.write(f"resultslist[0].keypoints: {resultslist[0].keypoints}")
-        for i, result in enumerate(resultslist):
+        st.write(f"resultslist[0]: {results[0]}")
+        st.write(f"resultslist[0].keypoints: {results[0].keypoints}")
+        for i, result in enumerate(results):
             st.write(f"Keypoints for frame {i}: {normalized_keypoints}")
             normalized_keypoints = result.keypoints.xyn.cpu().numpy()
             video_keypoints[i] = normalized_keypoints
