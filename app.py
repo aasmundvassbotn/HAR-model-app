@@ -18,7 +18,7 @@ def detect_keypoints(video_file):
       temp_file_path = temp_file.name
 
     # Pass the file-like object directly to the YOLO model
-    results = model.track(source=temp_file_path, save=True, stream=True, save_dir="saved_videos/track")
+    results = model.track(source=temp_file_path, save=True, stream=True)
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
         frame = result.orig_img  # Use the original frame from the result
@@ -32,9 +32,9 @@ def detect_keypoints(video_file):
             x[i][j*2+1] = keypoint[1]
     x = np.expand_dims(x, axis=0)
 
-    output_folder = "saved_videos/track"
+    output_folder = "runs/pose/track"
     # Find the most recent file (assuming you want the last run's result)
-    video_files = [f for f in os.listdir(output_folder) if f.endswith(('.mp4', '.avi'))]
+    video_files = [f for f in os.listdir(output_folder) if f.endswith(('.avi'))]
     video_files.sort(key=lambda x: os.path.getmtime(os.path.join(output_folder, x)))
     if video_files:
         latest_video_path = os.path.join(output_folder, video_files[0])
@@ -95,11 +95,11 @@ def main():
         st.markdown(f":blue-background[**{y_pred[0][y_class[0]]:.2f}%**]")
 
 def init():
-    if not os.path.exists("saved_videos"):
-        os.makedirs("saved_videos")
+    if not os.path.exists("runs/pose/track"):
+        os.makedirs("runs/pose/track")
 
 def cleanup():
-    shutil.rmtree("saved_videos")
+    shutil.rmtree("runs/pose/track")
 
 if __name__ == "__main__":
     main()
