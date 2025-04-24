@@ -76,7 +76,7 @@ def main():
     if detect_keypoints_button and video_file is not None:
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
-        model = keras.saving.load_model("./GRU_model.keras")
+        model = keras.saving.load_model("./GRU_model_2.keras")
         y_pred = model.predict(keypoints)
         st.success("Success ✅")
         display_video()
