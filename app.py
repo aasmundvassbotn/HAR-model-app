@@ -20,6 +20,7 @@ def detect_keypoints(video_file):
     # Pass the file-like object directly to the YOLO model
     results = None
     results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track")
+    st.write(results)
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
         frame = result.orig_img  # Use the original frame from the result
@@ -32,6 +33,8 @@ def detect_keypoints(video_file):
             x[i][j*2] = keypoint[0]
             x[i][j*2+1] = keypoint[1]
     x = np.expand_dims(x, axis=0)
+
+    st.write("X: ", x)
 
     return x
 
@@ -76,30 +79,24 @@ def main():
     if detect_keypoints_button and video_file is not None:
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
-        print("Keypoints detected successfully.")
-        print(keypoints)
-        btn = st.button("Predict")
-        if btn:
-            model = keras.saving.load_model("./GRU_model_2.keras")
-            y_pred = model.predict(keypoints)
-            print("y_pred", y_pred)
-            print("y_pred[0]", y_pred[0])
-            st.success("Success ✅")
-            display_video()
-            st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
-            y_class = np.argmax(y_pred, axis=1)
-            LABELS = [
-                "JUMPING",
-                "JUMPING_JACKS",
-                "BOXING",
-                "WAVING_2HANDS",
-                "WAVING_1HAND",
-                "CLAPPING_HANDS"
-            ]
-            st.write("Class predicted: ")
-            st.markdown(f":blue-background[**{LABELS[y_class[0]]}**]")
-            st.write("Confidence: ")
-            st.markdown(f":blue-background[**{y_pred[0][y_class[0]]:.2f}%**]")
+        model = keras.saving.load_model("./GRU_model_2.keras")
+        y_pred = model.predict(keypoints)
+        st.success("Success ✅")
+        #display_video()
+        st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
+        y_class = np.argmax(y_pred, axis=1)
+        LABELS = [
+            "JUMPING",
+            "JUMPING_JACKS",
+            "BOXING",
+            "WAVING_2HANDS",
+            "WAVING_1HAND",
+            "CLAPPING_HANDS"
+        ]
+        st.write("Class predicted: ")
+        st.markdown(f":blue-background[**{LABELS[y_class[0]]}**]")
+        st.write("Confidence: ")
+        st.markdown(f":blue-background[**{y_pred[0][y_class[0]]:.2f}%**]")
 
 def init():
     if not os.path.exists("runs/pose/track"):
