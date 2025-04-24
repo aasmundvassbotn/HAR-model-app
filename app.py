@@ -32,6 +32,9 @@ def detect_keypoints(video_file):
             x[i][j*2+1] = keypoint[1]
     x = np.expand_dims(x, axis=0)
 
+    return x
+
+def display_video():
     output_folder = "runs/pose/track"
     # Find the most recent file (assuming you want the last run's result)
     video_files = [f for f in os.listdir(output_folder) if f.endswith(('.avi'))]
@@ -50,8 +53,6 @@ def detect_keypoints(video_file):
         st.video(converted_video_path, format="video/mp4")
     else:
         st.warning("No output video found in the results folder.")
-
-    return x
 
 def main():
     st.title("Human Action Recognition App")
@@ -77,6 +78,7 @@ def main():
         model = keras.saving.load_model("./GRU_model.keras")
         y_pred = model.predict(keypoints)
         st.success("Success ✅")
+        display_video()
         st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
         y_class = np.argmax(y_pred, axis=1)
         LABELS = [
@@ -87,6 +89,7 @@ def main():
             "Waving one hand",
             "Clapping",
         ]
+        st.write("BLALALALAL", y_pred)
         st.write("Class predicted: ")
         st.markdown(f":blue-background[**{LABELS[y_class[0]]}**]")
         st.write("Confidence: ")
