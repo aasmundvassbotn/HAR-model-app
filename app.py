@@ -76,10 +76,14 @@ def main():
     if detect_keypoints_button and video_file is not None:
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
-        
-        if st.button("Prdict"):
+        st._update_logger("Keypoints detected successfully.")
+        st._update_logger(keypoints)
+        btn = st.button("Predict")
+        if btn:
             model = keras.saving.load_model("./GRU_model_2.keras")
             y_pred = model.predict(keypoints)
+            st._update_logger(y_pred)
+            st._update_logger(y_pred[0])
             st.success("Success ✅")
             display_video()
             st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
@@ -92,7 +96,6 @@ def main():
                 "WAVING_1HAND",
                 "CLAPPING_HANDS"
             ]
-            st.write("BLALALALAL", y_pred)
             st.write("Class predicted: ")
             st.markdown(f":blue-background[**{LABELS[y_class[0]]}**]")
             st.write("Confidence: ")
