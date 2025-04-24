@@ -46,9 +46,7 @@ def detect_keypoints(video_file):
         except subprocess.CalledProcessError:
             st.error("FFmpeg command failed.")
         
-        # Add a unique query parameter to the video path
-        unique_video_path = f"{converted_video_path}?t={int(os.path.getmtime(converted_video_path))}"
-        st.video(unique_video_path, format="video/mp4")
+        st.video(converted_video_path, format="video/mp4")
     else:
         st.warning("No output video found in the results folder.")
 
@@ -64,7 +62,6 @@ def main():
         for key in st.session_state.keys():
             del st.session_state[key]
         st.session_state.clear()
-        st.rerun()
         folder = "runs/pose/track"
         for file in os.listdir(folder):
             file_path = os.path.join(folder, file)
@@ -73,6 +70,7 @@ def main():
                     os.remove(file_path)
             except Exception as e:
                 st.error(f"Error deleting file {file_path}: {e}")
+        st.rerun()
 
     st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded and press this button again.")
     model = keras.saving.load_model("./bidirectional_model.keras")
