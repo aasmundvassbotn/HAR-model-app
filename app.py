@@ -9,6 +9,7 @@ import tempfile
 import os
 import subprocess
 import shutil
+from logging import getLogger
 
 def detect_keypoints(video_file):
     model = YOLO("yolo11n-pose.pt")
@@ -56,6 +57,7 @@ def display_video():
         st.warning("No output video found in the results folder.")
 
 def main():
+    app_logger = getLogger()
     st.title("Human Action Recognition App")
     st.write("Hello! This is a human action recognition app using a pre-trained pose detection model and a trained LSTM model. You can find the code in the GitHub repository: https://github.com/aasmundvassbotn/HAR-model-app")
     st.write("The model we trained is a unidirectional LSTM model. The model was trained on a subset of the Berkley MHAD dataset. The dataset we used can be found here: https://github.com/stuarteiffert/RNN-for-Human-Activity-Recognition-using-2D-Pose-Input?tab=readme-ov-file#dataset-overview. Our model is trained to classify the following actions: Jumping, Jumping jacks, Boxing, Waving two hands, Waving one hand and Clapping.")
@@ -76,14 +78,14 @@ def main():
     if detect_keypoints_button and video_file is not None:
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
-        st._update_logger("Keypoints detected successfully.")
-        st._update_logger(keypoints)
+        app_logger.info("Keypoints detected successfully.")
+        app_logger.info(keypoints)
         btn = st.button("Predict")
         if btn:
             model = keras.saving.load_model("./GRU_model_2.keras")
             y_pred = model.predict(keypoints)
-            st._update_logger(y_pred)
-            st._update_logger(y_pred[0])
+            app_logger.info("y_pred", y_pred)
+            app_logger.info("y_pred[0]", y_pred[0])
             st.success("Success ✅")
             display_video()
             st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
