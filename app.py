@@ -18,7 +18,7 @@ def detect_keypoints(video_file):
       temp_file_path = temp_file.name
 
     # Pass the file-like object directly to the YOLO model
-    results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track2")
+    results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track")
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
         frame = result.orig_img  # Use the original frame from the result
@@ -32,7 +32,7 @@ def detect_keypoints(video_file):
             x[i][j*2+1] = keypoint[1]
     x = np.expand_dims(x, axis=0)
 
-    output_folder = "runs/pose/track2"
+    output_folder = "runs/pose/track"
     # Find the most recent file (assuming you want the last run's result)
     video_files = [f for f in os.listdir(output_folder) if f.endswith(('.avi'))]
     video_files.sort(key=lambda x: os.path.getmtime(os.path.join(output_folder, x)))
@@ -54,7 +54,6 @@ def detect_keypoints(video_file):
     return x
 
 def main():
-    init()
     st.title("Human Action Recognition App")
     st.write("Hello! This is a human action recognition app using a pre-trained pose detection model and a trained LSTM model. You can find the code in the GitHub repository: https://github.com/aasmundvassbotn/HAR-model-app")
     st.write("The model we trained is a unidirectional LSTM model. The model was trained on a subset of the Berkley MHAD dataset. The dataset we used can be found here: https://github.com/stuarteiffert/RNN-for-Human-Activity-Recognition-using-2D-Pose-Input?tab=readme-ov-file#dataset-overview. Our model is trained to classify the following actions: Jumping, Jumping jacks, Boxing, Waving two hands, Waving one hand and Clapping.")
@@ -66,7 +65,6 @@ def main():
             del st.session_state[key]
         st.session_state.clear()
         cleanup()
-        init()
         st.rerun()
 
     st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded, press this button again and refresh the page.")
@@ -95,11 +93,11 @@ def main():
         st.markdown(f":blue-background[**{y_pred[0][y_class[0]]:.2f}%**]")
 
 def init():
-    if not os.path.exists("runs/pose/track2"):
-        os.makedirs("runs/pose/track2")
+    if not os.path.exists("runs/pose/track"):
+        os.makedirs("runs/pose/track")
 
 def cleanup():
-    shutil.rmtree("runs/pose/track2")
+    shutil.rmtree("runs/pose/track", ignore_errors=True)
 
 if __name__ == "__main__":
     main()
