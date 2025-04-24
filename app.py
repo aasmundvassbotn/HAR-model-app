@@ -24,9 +24,7 @@ def detect_keypoints(video_file):
         st.write(f"results[0].keypoints: {results[0].keypoints}")
         for i, result in enumerate(results):
             normalized_keypoints = result.keypoints.xyn.cpu().numpy()
-            st.write(f"Keypoints for frame {i}: {normalized_keypoints}")
             video_keypoints[i] = normalized_keypoints
-        st.write(f"Normalized keypoints: {video_keypoints}")
         x = video_keypoints.reshape(num_frames, -1)
         x = np.expand_dims(x, axis=0)
         st.write(f"Shape of x: {x.shape}")
@@ -71,7 +69,7 @@ def main():
         cleanup()
         st.rerun()
 
-    st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded, press this button again and refresh the page.")
+    st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded and press this button again.")
     video_file = st.file_uploader("Video file", type="mp4")
     detect_keypoints_button = st.button("Detect Keypoints")
 
