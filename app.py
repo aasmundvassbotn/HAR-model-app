@@ -14,26 +14,23 @@ def detect_keypoints(video_file):
     with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
       temp_file.write(video_file.getvalue())
       temp_file_path = temp_file.name
+    try:
+        results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track")
+        num_frames = len(list(results))
+        video_keypoints = np.ndarray((num_frames, 17, 2))
+        for i, result in enumerate(results):
+            normalized_keypoints = result.keypoints.xyn.cpu().numpy()
+            video_keypoints[i] = normalized_keypoints
 
-    # Pass the file-like object directly to the YOLO model
-    results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track")
-    num_frames = len(list(results))
-    video_keypoints = np.ndarray((num_frames, 17, 2))
-    for i, result in enumerate(results):
-        frame = result.orig_img  # Use the original frame from the result
-        normalized_keypoints = result.keypoints.xyn.cpu().numpy()
-        video_keypoints[i] = normalized_keypoints
-
-    x = np.zeros((num_frames, 34))
-    for i, frame in enumerate(video_keypoints):
-        for j, keypoint in enumerate(frame):
-            x[i][j*2] = keypoint[0]
-            x[i][j*2+1] = keypoint[1]
-        st.write(f"Frame {i+1}: {keypoint[i]}")
-    x = np.expand_dims(x, axis=0)
-    st.write(f"Shape of x: {x.shape}")
-    st.write(f"X: {x}")
-    return x
+        x = video_keypoints.reshape(num_frames, -1)
+        x = np.expand_dims(x, axis=0)
+        st.write(f"Shape of x: {x.shape}")
+        st.write(f"X: {x}")
+        return x
+    except Exception as e:
+        st.error(f"Error during keypoint detection: {e}")
+    finally:
+        os.remove(temp_file_path)
 
 def display_video():
     output_folder = "runs/pose/track"
