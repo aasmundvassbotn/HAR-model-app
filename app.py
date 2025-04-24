@@ -2,9 +2,7 @@ import streamlit as st
 import tensorflow as tf
 import keras
 import numpy as np
-import ultralytics
 from ultralytics import YOLO
-import cv2
 import tempfile
 import os
 import subprocess
