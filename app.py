@@ -21,7 +21,6 @@ def detect_keypoints(video_file):
             return None
         num_frames = len(list(results))
         video_keypoints = np.zeros((num_frames, 17, 2))
-        st.write(f"results[0].keypoints: {results[0].keypoints}")
         for i, result in enumerate(results):
             normalized_keypoints = result.keypoints.xyn.cpu().numpy()
             video_keypoints[i] = normalized_keypoints
@@ -76,7 +75,7 @@ def main():
     if detect_keypoints_button and video_file is not None:
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
-        model = keras.saving.load_model("./GRU_model_2.keras")
+        model = keras.saving.load_model("./GRU_model.keras")
         y_pred = model.predict(keypoints)
         st.success("Success ✅")
         display_video()
@@ -94,10 +93,6 @@ def main():
         st.markdown(f":blue-background[**{LABELS[y_class[0]]}**]")
         st.write("Confidence: ")
         st.markdown(f":blue-background[**{y_pred[0][y_class[0]]:.2f}%**]")
-
-def init():
-    if not os.path.exists("runs/pose/track"):
-        os.makedirs("runs/pose/track")
 
 def cleanup():
     shutil.rmtree("runs/pose/track", ignore_errors=False)
