@@ -83,12 +83,12 @@ def main():
         st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
         y_class = np.argmax(y_pred, axis=1)
         LABELS = [
-            "Jumping",
-            "Jumping jacks",
-            "Boxing",
-            "Waving two hands",
-            "Waving one hand",
-            "Clapping",
+            "JUMPING",
+            "JUMPING_JACKS",
+            "BOXING",
+            "WAVING_2HANDS",
+            "WAVING_1HAND",
+            "CLAPPING_HANDS"
         ]
         st.write("BLALALALAL", y_pred)
         st.write("Class predicted: ")
