@@ -49,7 +49,6 @@ def detect_keypoints(video_file):
         # Add a unique query parameter to the video path
         unique_video_path = f"{converted_video_path}?t={int(os.path.getmtime(converted_video_path))}"
         st.video(unique_video_path, format="video/mp4")
-        os.remove(temp_file_path)
     else:
         st.warning("No output video found in the results folder.")
 
