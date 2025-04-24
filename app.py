@@ -15,7 +15,10 @@ def detect_keypoints(video_file):
       temp_file.write(video_file.getvalue())
       temp_file_path = temp_file.name
     try:
-        results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track")
+        results = model.track(source=temp_file_path, save=True, save_dir="runs/pose/track")
+        if not results:
+            st.error("No results returned by the YOLO model. Please check the input video.")
+            return None
         num_frames = len(list(results))
         video_keypoints = np.zeros((num_frames, 17, 2))
         resultslist = list(results)
