@@ -19,7 +19,7 @@ def detect_keypoints(video_file):
         num_frames = len(list(results))
         video_keypoints = np.ndarray((num_frames, 17, 2))
         for i, result in enumerate(results):
-            normalized_keypoints = result.keypoints.xyn.cpu().numpy()
+            normalized_keypoints = result.keypoints.xy.cpu().numpy()
             video_keypoints[i] = normalized_keypoints
 
         x = video_keypoints.reshape(num_frames, -1)
