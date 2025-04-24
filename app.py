@@ -95,11 +95,11 @@ def main():
         st.markdown(f":blue-background[**{y_pred[0][y_class[0]]:.2f}%**]")
 
 def init():
-    if not os.path.exists("runs/pose/track"):
-        os.makedirs("runs/pose/track")
+    if not os.path.exists("runs/pose/track2"):
+        os.makedirs("runs/pose/track2")
 
 def cleanup():
-    shutil.rmtree("runs/pose/track")
+    shutil.rmtree("runs/pose/track2")
 
 if __name__ == "__main__":
     main()
