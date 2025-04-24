@@ -20,6 +20,7 @@ def detect_keypoints(video_file):
         video_keypoints = np.zeros((num_frames, 17, 2))
         for i, result in enumerate(results):
             normalized_keypoints = result.keypoints.xyn.cpu().numpy()
+            st.write(f"Keypoints for frame {i}: {normalized_keypoints}")
             video_keypoints[i] = normalized_keypoints
         st.write(f"Normalized keypoints: {video_keypoints}")
         x = video_keypoints.reshape(num_frames, -1)
