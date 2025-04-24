@@ -76,7 +76,7 @@ def main():
     if detect_keypoints_button and video_file is not None:
         # Pass the file-like object directly
         keypoints = detect_keypoints(video_file)
-        model = keras.saving.load_model("./bidirectional_model.keras")
+        model = keras.saving.load_model("./GRU_model.keras")
         y_pred = model.predict(keypoints)
         st.success("Success ✅")
         st.write("Above is the video you uploaded after the keypoint detection process. If you spot any errors in the keypoints displayed, this is because of the YOLO model used. Had a more advanced model like the small, medium or large been used the results would have been better. However, these models are too large to be used in this app. If errors are present this can affect the classification result.")
