@@ -18,6 +18,7 @@ def detect_keypoints(video_file):
       temp_file_path = temp_file.name
 
     # Pass the file-like object directly to the YOLO model
+    results = None
     results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track")
     video_keypoints = np.ndarray((128, 17, 2))
     for i, result in enumerate(results):
