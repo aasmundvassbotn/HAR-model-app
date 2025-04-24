@@ -17,11 +17,11 @@ def detect_keypoints(video_file):
     try:
         results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track")
         num_frames = len(list(results))
-        video_keypoints = np.ndarray((num_frames, 17, 2))
+        video_keypoints = np.zeros((num_frames, 17, 2))
         for i, result in enumerate(results):
-            normalized_keypoints = result.keypoints.xy.cpu().numpy()
+            normalized_keypoints = result.keypoints.xyn.cpu().numpy()
             video_keypoints[i] = normalized_keypoints
-
+        st.write(f"Normalized keypoints: {video_keypoints}")
         x = video_keypoints.reshape(num_frames, -1)
         x = np.expand_dims(x, axis=0)
         st.write(f"Shape of x: {x.shape}")
