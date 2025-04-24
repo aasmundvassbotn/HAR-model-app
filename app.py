@@ -16,13 +16,13 @@ def detect_keypoints(video_file):
       temp_file_path = temp_file.name
     try:
         results = model.track(source=temp_file_path, save=True, stream=True, save_dir="runs/pose/track")
-        st.write("Results type: ", type(results))
-        st.write("Results content: ", list(results))
         num_frames = len(list(results))
         video_keypoints = np.zeros((num_frames, 17, 2))
-        for i, result in enumerate(list(results)):
-            normalized_keypoints = result.keypoints.xyn.cpu().numpy()
+        resultslist = list(results)
+        st.write(f"resultslist: {resultslist}")
+        for i, result in enumerate(resultslist):
             st.write(f"Keypoints for frame {i}: {normalized_keypoints}")
+            normalized_keypoints = result.keypoints.xyn.cpu().numpy()
             video_keypoints[i] = normalized_keypoints
         st.write(f"Normalized keypoints: {video_keypoints}")
         x = video_keypoints.reshape(num_frames, -1)
