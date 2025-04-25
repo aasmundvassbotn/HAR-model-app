@@ -26,8 +26,6 @@ def detect_keypoints(video_file):
             video_keypoints[i] = normalized_keypoints
         x = video_keypoints.reshape(num_frames, -1)
         x = np.expand_dims(x, axis=0)
-        st.write(f"Shape of x: {x.shape}")
-        st.write(f"X: {x}")
         return x
     except Exception as e:
         st.error(f"Error during keypoint detection: {e}")
@@ -68,7 +66,7 @@ def main():
         cleanup()
         st.rerun()
 
-    st.write("Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded and press this button again.")
+    st.write("**Please press the button above to reset the session state. This is because the app is hosted on Streamlit Cloud and the session state is not reset automatically. After every run, press the x on the video uploaded and press this button again.**")
     video_file = st.file_uploader("Video file", type="mp4")
     detect_keypoints_button = st.button("Detect Keypoints")
 
