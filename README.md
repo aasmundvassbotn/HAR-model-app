@@ -8,14 +8,15 @@ Includes training a HAR (Human Action Recognition) model and a Streamlit app.
 5. [License](#license)
 
 ## Project structure
-All notebooks that were used to experiment with the dataset and train the model itself are found in the "notebooks"-folder. All notebooks were run in Google Colab and Google Drive were used to store data. The rest of the project are essential for the webapp to function. "app.py" is the app itself.
+All notebooks that were used to experiment with the dataset and train the model itself are found in this repository: https://github.com/aasmundvassbotn/HAR_model_training. We seperated them into seperate git-repos due to them causing issues with the Streamlit Cloud. All notebooks were run in Google Colab and Google Drive were used to store data. 
+All files in this project are files for the webapps functionality. "app.py" is the app itself.
+
+## Model Training (Notebooks)
+All model training is performed in the notebookes. The final model is included in this repo as a saved keras model.
 
 ## Dataset
 The original dataset can be found here: https://github.com/stuarteiffert/RNN-for-Human-Activity-Recognition-using-2D-Pose-Input?tab=readme-ov-file#dataset-overview
 In the notebooks you can find one named "preprocessing_dataset.ipynb". This notebook is used to process the original dataset into numpy arrays that were used to train the model used. We normalized the data, removed the 18th keypoint, augmented data and balanced the distribution of the classes.
-
-## Model Training
-Details about training the HAR model, including datasets and configurations.
 
 ## Streamlit App
 The Streamlit App can be accessed here: https://harvideomodel-qvmgers7vkxxixgbwp9plc.streamlit.app/
