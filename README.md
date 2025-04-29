@@ -19,7 +19,7 @@ The original dataset can be found here: https://github.com/stuarteiffert/RNN-for
 In the notebooks you can find one named "preprocessing_dataset.ipynb". This notebook is used to process the original dataset into numpy arrays that were used to train the model used. We normalized the data, removed the 18th keypoint, augmented data and balanced the distribution of the classes.
 
 ## Streamlit App
-The Streamlit App can be accessed here: https://harvideomodel-qvmgers7vkxxixgbwp9plc.streamlit.app/
+The Streamlit App can be accessed here: [https://harvideomodel-qvmgers7vkxxixgbwp9plc.streamlit.app/](https://har-model-app-cjh3xj6pzh9n2hdlswbqd9.streamlit.app/)
 The app is limited to the free resources provided by Streamlit Cloud. Therefore the app is rather slow. In further work, runtime can be improved:
 - Quantize and prune GRU-model thus making the prediction itself faster
 - Cut every other (or more) frame from the video submitted. For example most mobile phone cameras capture videos at 30fps. This many frames are redundant and a lot of computation may be saved by editing the videos before it is passed to the YOLO-model.
